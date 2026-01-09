@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nouveau Patient</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light">
+
+<!-- Header Admin -->
+<div th:replace="template :: navbar_admin"></div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-3">
+                <div class="card-header bg-success text-white py-3 rounded-top-3">
+                    <h5 class="card-title mb-0 fw-bold">
+                        <i class="fas fa-user-injured me-2"></i>Nouveau Patient
+                    </h5>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <!-- Alerte Erreur (Si email existe déjà) -->
+                    <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center mb-4" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <div>
+                            <strong>Erreur :</strong> <span th:text="${param.error}"></span>
+                        </div>
+                    </div>
+
+                    <form method="post" th:action="@{/admin/savePatient}">
+
+                        <!-- Nom -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-secondary">Nom & Prénom</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-success"></i></span>
+                                <input type="text" name="nom" class="form-control border-start-0" placeholder="Nom du patient" required>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold small text-secondary">Email (Sert d'identifiant)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-success"></i></span>
+                                <input type="email" name="email" class="form-control border-start-0" placeholder="email@client.com" required>
+                            </div>
+                            <div class="form-text small"><i class="fas fa-info-circle me-1"></i>Le mot de passe par défaut sera : 1234</div>
+                        </div>
+
+                        <!-- Boutons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success shadow-sm fw-bold">
+                                <i class="fas fa-check me-1"></i> Créer le dossier
+                            </button>
+                            <a th:href="@{/patients}" class="btn btn-light text-muted border">Retour</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

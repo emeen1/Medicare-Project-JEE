@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rapport Médical</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light py-5">
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- Bouton Retour -->
+            <div class="mb-3 d-flex justify-content-between">
+                <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </a>
+                <a th:href="@{/consultation/export/pdf(rdvId=${rdv.id})}" class="btn btn-danger shadow-sm">
+                    <i class="fas fa-file-pdf me-2"></i> Télécharger en PDF
+                </a>
+            </div>
+
+            <!-- Feuille A4 -->
+            <div class="card shadow-lg border-0" style="min-height: 297mm;">
+                <div class="card-body p-5">
+
+                    <!-- En-tête -->
+                    <div class="text-center border-bottom pb-4 mb-4">
+                        <h2 class="text-primary fw-bold text-uppercase">Rapport de Consultation</h2>
+                        <p class="text-muted">Clinique MediCare - Service Médical</p>
+                        <small th:text="${#dates.format(consultation.dateConsultation, 'dd MMMM yyyy')}"></small>
+                    </div>
+
+                    <!-- Infos -->
+                    <div class="row mb-5">
+                        <div class="col-6">
+                            <h5 class="text-secondary fw-bold">Médecin :</h5>
+                            <p class="fw-bold mb-0" th:text="${rdv.medecin.nom}"></p>
+                            <p class="text-muted small" th:text="${rdv.medecin.specialite}"></p>
+                            <p class="text-muted small" th:text="${rdv.medecin.email}"></p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <h5 class="text-secondary fw-bold">Patient :</h5>
+                            <p class="fw-bold mb-0" th:text="${rdv.patient.nom}"></p>
+                            <p class="text-muted small" th:text="${rdv.patient.email}"></p>
+                        </div>
+                    </div>
+
+                    <!-- Contenu -->
+                    <div class="mb-5">
+                        <h5 class="text-secondary fw-bold border-bottom pb-2 mb-3">Compte-rendu & Prescription</h5>
+                        <div class="p-4 bg-light rounded border">
+                            <p class="lead" style="white-space: pre-line;" th:text="${consultation.rapport}"></p>
+                        </div>
+                    </div>
+
+                    <!-- Signature -->
+                    <div class="mt-5 text-end pt-5">
+                        <p class="mb-5">Signature du praticien :</p>
+                        <div class="fw-bold text-primary fst-italic" th:text="${rdv.medecin.nom}"></div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nouveau Médecin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light">
+
+<!-- Header Admin -->
+<div th:replace="template :: navbar_admin"></div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-3">
+                <div class="card-header bg-success text-white py-3 rounded-top-3">
+                    <h5 class="card-title mb-0 fw-bold">
+                        <i class="fas fa-user-md me-2"></i>Nouveau Praticien
+                    </h5>
+                </div>
+
+                <div class="card-body p-4">
+                    <p class="text-muted small mb-4">Veuillez renseigner les informations professionnelles du médecin.</p>
+
+                    <form method="post" th:action="@{/admin/saveMedecin}">
+
+                        <!-- Nom -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-secondary">Nom Complet</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-signature text-sucess"></i></span>
+                                <input type="text" name="nom" class="form-control border-start-0" placeholder="Ex: Dr. Alami" required>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-secondary">Email Professionnel</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-at text-sucess"></i></span>
+                                <input type="email" name="email" class="form-control border-start-0" placeholder="contact@hopital.ma" required>
+                            </div>
+                        </div>
+
+                        <!-- Spécialité -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold small text-secondary">Spécialité</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-certificate text-sucess"></i></span>
+                                <input type="text" name="specialite" class="form-control border-start-0" placeholder="Ex: Cardiologue" required>
+                            </div>
+                        </div>
+
+                        <!-- Boutons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success shadow-sm fw-bold">
+                                <i class="fas fa-save me-1"></i> Enregistrer
+                            </button>
+                            <a th:href="@{/medecins}" class="btn btn-light text-muted border">Annuler</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

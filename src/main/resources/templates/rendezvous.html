@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Planning des Rendez-Vous</title>
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light">
+
+<!-- Header commun -->
+<div th:replace="template :: navbar_admin"></div>
+
+<div class="container mt-4">
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h5 class="card-title text-primary mb-0">
+                <i class="fas fa-calendar-alt me-2"></i>Planning Global
+            </h5>
+        </div>
+
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Date & Heure</th>
+                    <th>Patient</th>
+                    <th>Médecin</th>
+                    <th>Statut</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${listRDV}">
+                    <!-- ID -->
+                    <td class="ps-4 fw-bold text-muted" th:text="${'#' + r.id}"></td>
+
+                    <!-- Date -->
+                    <td>
+                        <div class="d-flex align-items-center text-dark">
+                            <i class="far fa-clock me-2 text-primary"></i>
+                            <span th:if="${r.date != null}"
+                                  th:text="${#dates.format(r.date, 'dd/MM/yyyy à HH:mm')}"
+                                  class="fw-medium"></span>
+                            <span th:if="${r.date == null}" class="text-muted fst-italic">Non définie</span>
+                        </div>
+                    </td>
+
+                    <!-- Patient -->
+                    <td>
+                        <div th:if="${r.patient != null}" class="d-flex align-items-center">
+                            <!-- Avatar Patient (Bleu) -->
+                            <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center me-2"
+                                 style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                <i class="fas fa-user-injured"></i>
+                            </div>
+                            <span th:text="${r.patient.nom}"></span>
+                        </div>
+                        <div th:if="${r.patient == null}" class="text-danger small">
+                            <i class="fas fa-exclamation-triangle me-1"></i> Patient inconnu
+                        </div>
+                    </td>
+
+                    <!-- Médecin -->
+                    <td>
+                        <div th:if="${r.medecin != null}" class="d-flex align-items-center">
+                            <!-- Avatar Médecin (Vert/Teal) -->
+                            <div class="rounded-circle bg-info-subtle text-info-emphasis d-flex align-items-center justify-content-center me-2"
+                                 style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div>
+                                <div th:text="${r.medecin.nom}" class="fw-medium" style="font-size: 0.95rem;"></div>
+                                <div class="text-muted small" style="font-size: 0.75rem;" th:text="${r.medecin.specialite}"></div>
+                            </div>
+                        </div>
+                        <div th:if="${r.medecin == null}" class="text-danger small">
+                            <i class="fas fa-user-slash me-1"></i> Non assigné
+                        </div>
+                    </td>
+
+                    <!-- Statut (Badges modernes) -->
+                    <td>
+                        <!-- EN ATTENTE (Jaune) -->
+                        <span th:if="${r.status != null && r.status.name() == 'PENDING'}"
+                              class="badge rounded-pill bg-warning-subtle text-warning-emphasis border border-warning-subtle px-3">
+                                    <i class="fas fa-hourglass-half me-1"></i> En attente
+                                </span>
+
+                        <!-- TERMINÉ (Vert) -->
+                        <span th:if="${r.status != null && r.status.name() == 'DONE'}"
+                              class="badge rounded-pill bg-success-subtle text-success-emphasis border border-success-subtle px-3">
+                                    <i class="fas fa-check-circle me-1"></i> Terminé
+                                </span>
+
+                        <!-- ANNULÉ (Rouge) -->
+                        <span th:if="${r.status != null && r.status.name() == 'CANCELED'}"
+                              class="badge rounded-pill bg-danger-subtle text-danger-emphasis border border-danger-subtle px-3">
+                                    <i class="fas fa-ban me-1"></i> Annulé
+                                </span>
+                    </td>
+                </tr>
+
+                <!-- État vide -->
+                <tr th:if="${#lists.isEmpty(listRDV)}">
+                    <td colspan="5" class="text-center py-5 text-muted">
+                        <div class="mb-2"><i class="far fa-calendar-times fa-3x opacity-25"></i></div>
+                        Aucun rendez-vous programmé.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

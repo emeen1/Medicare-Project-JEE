@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Prendre Rendez-Vous</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <!-- Bouton retour discret -->
+            <div class="mb-3">
+                <a th:href="@{/patient/dashboard}" class="text-decoration-none text-muted small">
+                    <i class="fas fa-arrow-left me-1"></i> Retour au tableau de bord
+                </a>
+            </div>
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <!-- En-tête avec dégradé -->
+                <div class="card-header bg-gradient bg-success text-white py-4 text-center border-0">
+                    <h4 class="mb-1 fw-bold"><i class="far fa-calendar-plus me-2"></i>Réservation</h4>
+                    <p class="mb-0 text-white-50 small">Sélectionnez votre créneau et votre praticien</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" th:action="@{/saveRDV}">
+
+                        <!-- Champ Date -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark">Date et Heure souhaitée</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-white text-primary border-end-0"><i class="far fa-clock"></i></span>
+                                <input type="datetime-local" name="date" class="form-control border-start-0 bg-light" required>
+                            </div>
+                        </div>
+
+                        <!-- Champ Médecin -->
+                        <div class="mb-5">
+                            <label class="form-label fw-bold text-dark">Choix du Spécialiste</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-white text-primary border-end-0"><i class="fas fa-user-md"></i></span>
+                                <select name="medecin" class="form-select border-start-0 bg-light" required>
+                                    <option value="" disabled selected>-- Sélectionnez un médecin --</option>
+                                    <option th:each="m : ${medecins}"
+                                            th:value="${m.id}"
+                                            th:text="${m.nom} + '  (' + ${m.specialite} + ')'">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Bouton Action -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill shadow-sm fw-bold">
+                                Confirmer le Rendez-vous <i class="fas fa-chevron-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer bg-white text-center py-3 border-0">
+                    <small class="text-muted"><i class="fas fa-lock me-1"></i> Vos données de santé sont sécurisées.</small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

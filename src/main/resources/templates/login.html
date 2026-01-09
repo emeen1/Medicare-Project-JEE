@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Connexion - MediCare</title>
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body, html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Pour éviter les scrollbars sur le split screen */
+        }
+
+        .login-container {
+            height: 100vh;
+        }
+
+        /* Partie Gauche (Image) */
+        .bg-image {
+            background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .bg-overlay {
+            background: linear-gradient(135deg, rgba(0, 80, 158, 0.9), rgba(0, 168, 204, 0.8));
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Partie Droite (Formulaire) */
+        .login-form-section {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+        }
+
+        .form-control {
+            height: 50px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding-left: 20px;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #00509e;
+            background-color: white;
+        }
+
+        .input-group-text {
+            background: transparent;
+            border: none;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            z-index: 10;
+            color: #adb5bd;
+        }
+
+        .btn-primary {
+            height: 50px;
+            border-radius: 10px;
+            font-weight: 600;
+            background: linear-gradient(45deg, #00509e, #007bff);
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 80, 158, 0.3);
+        }
+
+        .back-link {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            color: #6c757d;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #00509e;
+        }
+
+        /* Responsive : Cache l'image sur mobile */
+        @media (max-width: 768px) {
+            .bg-image { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid login-container">
+    <div class="row h-100">
+
+        <!-- Partie Gauche : Image & Branding -->
+        <div class="col-md-6 col-lg-7 p-0 bg-image d-none d-md-block">
+            <div class="bg-overlay">
+                <i class="fas fa-heartbeat fa-5x mb-4 animate__animated animate__pulse animate__infinite"></i>
+                <h1 class="fw-bold display-4">MediCare</h1>
+                <p class="fs-4 fw-light">Votre santé, connectée et simplifiée.</p>
+            </div>
+        </div>
+
+        <!-- Partie Droite : Formulaire -->
+        <div class="col-md-6 col-lg-5 login-form-section">
+
+            <!-- Lien retour Accueil -->
+            <a th:href="@{/}" class="back-link">
+                <i class="fas fa-arrow-left me-2"></i>Retour au site
+            </a>
+
+            <div class="login-wrapper">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-dark">Bienvenue !</h2>
+                    <p class="text-muted">Connectez-vous pour accéder à votre espace.</p>
+                </div>
+
+                <!-- Alertes (Erreur / Logout) -->
+                <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center rounded-3 mb-4" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i> Identifiants incorrects.
+                </div>
+                <div th:if="${param.logout}" class="alert alert-success d-flex align-items-center rounded-3 mb-4" role="alert">
+                    <i class="fas fa-check-circle me-2"></i> Vous avez été déconnecté.
+                </div>
+
+                <form method="post" th:action="@{/login}">
+
+                    <!-- Username -->
+                    <div class="mb-4 position-relative">
+                        <label class="form-label text-muted small fw-bold">IDENTIFIANT / EMAIL</label>
+                        <input type="text" name="username" class="form-control" placeholder="Entrez votre identifiant" required autofocus>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4 position-relative">
+                        <label class="form-label text-muted small fw-bold">MOT DE PASSE</label>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+
+                    <!-- Bouton -->
+                    <div class="d-grid mb-4">
+                        <button type="submit" class="btn btn-primary shadow">Se connecter</button>
+                    </div>
+
+                    <!-- Footer Form -->
+                    <div class="text-center">
+                        <p class="text-muted small">Pas encore de compte ? <br>
+                            Veuillez contacter l'administration de la clinique.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
